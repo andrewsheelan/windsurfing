@@ -1,5 +1,10 @@
 # 🏄‍♂️ Windsurfing E-Commerce Platform
 
+[![CI](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml/badge.svg)](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
+[![Rails](https://img.shields.io/badge/Rails-8.0.0-red.svg)](https://rubyonrails.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3-blue.svg)](https://tailwindcss.com/)
+
 A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind CSS, specialized for windsurfing equipment and accessories.
 
 ![alt text](gallery/signup.png)
@@ -50,6 +55,86 @@ A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind C
 - **Authentication**: Devise
 - **File Storage**: Active Storage
 - **JavaScript**: ES6+
+
+## 🧪 Test Coverage
+
+### Controller Tests
+
+#### Products Controller
+- ✅ Index action displays all products
+- ✅ Show action displays product details
+- ✅ Create action adds new product
+- ✅ Update action modifies product
+- ✅ Delete action removes product
+- ✅ Handles invalid product data
+
+#### Cart Items Controller
+- ✅ Create adds item to cart
+- ✅ Update modifies item quantity
+- ✅ Delete removes item from cart
+- ✅ Validates stock levels
+- ✅ Handles invalid quantities
+- ✅ Prevents exceeding stock
+- ✅ Supports both HTML and JSON formats
+
+#### Orders Controller
+- ✅ Create new order
+- ✅ Show order details
+- ✅ List user orders
+- ✅ Validates order status
+- ✅ Calculates order total
+
+### Model Tests
+
+#### Product
+- ✅ Validates presence of name, description
+- ✅ Validates price is positive
+- ✅ Validates stock is non-negative
+- ✅ Handles image attachments
+
+#### Cart
+- ✅ Calculates total price
+- ✅ Manages cart items
+- ✅ Validates quantities
+- ✅ Enforces stock limits
+
+#### Order
+- ✅ Validates status values
+- ✅ Calculates total
+- ✅ Manages order items
+- ✅ Associates with user
+
+## 🛠️ Continuous Integration
+
+Our CI pipeline ensures code quality and test reliability:
+
+- 🔄 **Automated Tests**
+  - Runs full test suite
+  - Controller tests
+  - Model tests
+  - Integration tests
+  - System tests
+
+- 📊 **Code Quality**
+  - RuboCop style checks
+  - Security vulnerability scans
+  - Code coverage reports
+  - Performance analysis
+
+- 🏗️ **Build Process**
+  - Dependency installation
+  - Database migrations
+  - Asset compilation
+  - Environment setup
+
+### Latest CI Status
+
+| Check | Status |
+|-------|--------|
+| Tests | [![Tests](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml) |
+| Code Style | [![Style](https://github.com/andrewpaliyan/windsurfing/actions/workflows/rubocop.yml/badge.svg)](https://github.com/andrewpaliyan/windsurfing/actions/workflows/rubocop.yml) |
+| Security | [![Security](https://github.com/andrewpaliyan/windsurfing/actions/workflows/security.yml/badge.svg)](https://github.com/andrewpaliyan/windsurfing/actions/workflows/security.yml) |
+| Coverage | [![Coverage](https://codecov.io/gh/andrewpaliyan/windsurfing/branch/main/graph/badge.svg)](https://codecov.io/gh/andrewpaliyan/windsurfing) |
 
 ## 📦 Installation
 

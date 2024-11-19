@@ -19,11 +19,11 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create order" do
     assert_difference("Order.count") do
-      post orders_url, params: { 
-        order: { 
+      post orders_url, params: {
+        order: {
           status: "pending",
           total: 99.99
-        } 
+        }
       }
     end
 

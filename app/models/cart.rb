@@ -22,7 +22,7 @@ class Cart < ApplicationRecord
         current_item.update(quantity: product.stock)
       end
     else
-      quantity = [quantity, product.stock].min
+      quantity = [ quantity, product.stock ].min
       cart_items.create(product: product, quantity: quantity)
     end
   end

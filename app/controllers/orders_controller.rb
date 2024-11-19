@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: [:show]
+  before_action :set_order, only: [ :show ]
 
   def index
     @orders = current_user.orders
@@ -11,9 +11,9 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
-    
+
     if @order.save
-      redirect_to @order, notice: 'Order was successfully created.'
+      redirect_to @order, notice: "Order was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
