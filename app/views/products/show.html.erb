@@ -1,0 +1,182 @@
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol role="list" class="flex items-center space-x-2">
+        <li>
+          <%= link_to "Products", products_path, class: "text-sm font-medium text-gray-500 hover:text-gray-700" %>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="h-5 w-5 flex-shrink-0 text-gray-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+            </svg>
+            <span class="ml-2 text-sm font-medium text-gray-500"><%= @product.name %></span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12">
+      <!-- Image gallery -->
+      <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-100">
+        <% if @product.image.attached? %>
+          <%= image_tag @product.image, class: "h-full w-full object-cover object-center" %>
+        <% else %>
+          <div class="flex h-full items-center justify-center">
+            <svg class="h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Product info -->
+      <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%= @product.name %></h1>
+
+        <div class="mt-3">
+          <p class="text-3xl tracking-tight text-gray-900">
+            <%= number_to_currency(@product.price) %>
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <div class="space-y-6 text-base text-gray-700">
+            <%= @product.description %>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <% if @product.stock > 0 %>
+            <div class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700">
+              <svg class="-ml-0.5 mr-1.5 h-2 w-2 fill-green-500" viewBox="0 0 8 8">
+                <circle cx="4" cy="4" r="3" />
+              </svg>
+              In Stock
+              <span class="ml-1 text-sm">(<%= @product.stock %> available)</span>
+            </div>
+          <% else %>
+            <div class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-red-700">
+              <svg class="-ml-0.5 mr-1.5 h-2 w-2 fill-red-500" viewBox="0 0 8 8">
+                <circle cx="4" cy="4" r="3" />
+              </svg>
+              Out of Stock
+            </div>
+          <% end %>
+        </div>
+
+        <%= form_with(url: cart_items_path, method: :post, class: "mt-8", data: { controller: "cart", action: "ajax:success->cart#addToCartSuccess" }) do |f| %>
+          <%= f.hidden_field :product_id, value: @product.id %>
+          
+          <div class="mb-6">
+            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+            <div class="mt-2 flex rounded-md shadow-sm w-32">
+              <button type="button" data-action="cart#decrementQuantity" class="relative -ml-px inline-flex items-center rounded-l-md px-3 text-gray-500 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              <%= f.number_field :quantity, value: 1, min: 1, max: @product.stock,
+                  class: "block w-full border-0 py-1.5 text-center text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-600 sm:text-sm sm:leading-6",
+                  data: { cart_target: "quantity" } %>
+              <button type="button" data-action="cart#incrementQuantity" class="relative -ml-px inline-flex items-center rounded-r-md px-3 text-gray-500 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <%= f.submit "Add to Cart", 
+                class: "flex-1 rounded-md bg-orange-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed",
+                disabled: @product.stock == 0 %>
+            
+            <% if user_signed_in? %>
+              <%= link_to edit_product_path(@product), 
+                  class: "rounded-md bg-white px-4 py-3 text-sm font-semibold text-orange-600 shadow-sm ring-1 ring-inset ring-orange-600 hover:bg-orange-50 transition-colors duration-200" do %>
+                <span class="flex items-center gap-1">
+                  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M5.433 13.917l1.262-3.155A4 4 0 017.58 9.42l6.92-6.918a2.121 2.121 0 013 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 01-.65-.65z" />
+                    <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0010 3H4.75A2.75 2.75 0 002 5.75v9.5A2.75 2.75 0 004.75 18h9.5A2.75 2.75 0 0017 15.25V10a.75.75 0 00-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z" />
+                  </svg>
+                  Edit Product
+                </span>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="mt-8 border-t border-gray-200 pt-8">
+          <h2 class="text-sm font-medium text-gray-900">Shipping Information</h2>
+          <div class="mt-4 space-y-4">
+            <div class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p class="ml-3 text-sm text-gray-500">Usually ships within 1-2 business days</p>
+            </div>
+            <div class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+              </svg>
+              <p class="ml-3 text-sm text-gray-500">Free shipping on orders over $100</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Stimulus controller for quantity management %>
+<%= content_for :head do %>
+  <%= javascript_tag do %>
+    import { Controller } from "@hotwired/stimulus"
+
+    export default class extends Controller {
+      static targets = ["quantity"]
+
+      incrementQuantity() {
+        const input = this.quantityTarget
+        const currentValue = parseInt(input.value)
+        const maxValue = parseInt(input.max)
+        
+        if (currentValue < maxValue) {
+          input.value = currentValue + 1
+        }
+      }
+
+      decrementQuantity() {
+        const input = this.quantityTarget
+        const currentValue = parseInt(input.value)
+        
+        if (currentValue > 1) {
+          input.value = currentValue - 1
+        }
+      }
+
+      addToCartSuccess(event) {
+        const [data, _status, _xhr] = event.detail
+        
+        // Show success notification
+        const notification = document.createElement('div')
+        notification.className = 'fixed top-4 right-4 bg-green-50 p-4 rounded-md shadow-lg'
+        notification.innerHTML = `
+          <div class="flex items-center">
+            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+            </svg>
+            <p class="ml-3 text-sm font-medium text-green-800">
+              Product added to cart successfully!
+            </p>
+          </div>
+        `
+        
+        document.body.appendChild(notification)
+        setTimeout(() => notification.remove(), 3000)
+      }
+    }
+  <% end %>
+<% end %>

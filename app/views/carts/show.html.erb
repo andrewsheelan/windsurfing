@@ -1,0 +1,126 @@
+<div class="bg-white">
+  <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900">Shopping Cart</h1>
+
+    <div class="mt-12">
+      <% if @cart_items.any? %>
+        <div class="flow-root">
+          <ul role="list" class="-my-6 divide-y divide-gray-200">
+            <% @cart_items.each do |item| %>
+              <li class="flex py-6" id="cart-item-<%= item.id %>">
+                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                  <% if item.product.image.attached? %>
+                    <%= image_tag item.product.image, class: "h-full w-full object-cover object-center" %>
+                  <% else %>
+                    <div class="flex h-full items-center justify-center bg-gray-100">
+                      <svg class="h-8 w-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="ml-4 flex flex-1 flex-col">
+                  <div>
+                    <div class="flex justify-between text-base font-medium text-gray-900">
+                      <h3>
+                        <%= link_to item.product.name, product_path(item.product), class: "hover:text-orange-600 transition-colors duration-200" %>
+                      </h3>
+                      <p class="ml-4" data-item-total="<%= item.id %>">
+                        <%= number_to_currency(item.product.price * item.quantity) %>
+                      </p>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 line-clamp-2"><%= item.product.description %></p>
+                  </div>
+                  <div class="flex flex-1 items-end justify-between text-sm">
+                    <div class="flex items-center gap-2">
+                      <p class="text-gray-500">Qty</p>
+                      <%= form_with(url: cart_path, method: :patch, class: "flex items-center gap-2", data: { controller: "cart", action: "ajax:success->cart#updateSuccess" }) do |f| %>
+                        <%= f.hidden_field :product_id, value: item.product.id %>
+                        <%= f.number_field :quantity, value: item.quantity, min: 0, max: item.product.stock,
+                            class: "w-16 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm",
+                            data: { action: "change->cart#updateQuantity" } %>
+                      <% end %>
+                    </div>
+
+                    <%= button_to cart_path(product_id: item.product.id, quantity: 0), 
+                        method: :patch,
+                        class: "font-medium text-orange-600 hover:text-orange-500 transition-colors duration-200",
+                        data: { confirm: "Remove #{item.product.name} from cart?" } do %>
+                      Remove
+                    <% end %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="mt-8 border-t border-gray-200 pt-8">
+          <div class="flex justify-between text-base font-medium text-gray-900">
+            <p>Subtotal</p>
+            <p data-cart-total><%= number_to_currency(@cart.total_price) %></p>
+          </div>
+          <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+
+          <div class="mt-6 flex gap-3">
+            <%= link_to "Checkout", "#", class: "flex-1 rounded-md bg-orange-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors duration-200" %>
+            <%= button_to cart_path, 
+                method: :delete, 
+                class: "rounded-md bg-white px-4 py-3 text-sm font-semibold text-orange-600 shadow-sm ring-1 ring-inset ring-orange-600 hover:bg-orange-50 transition-colors duration-200",
+                data: { confirm: "Are you sure you want to clear your cart?" } do %>
+              Clear Cart
+            <% end %>
+          </div>
+
+          <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+            <p>
+              or
+              <%= link_to "Continue Shopping", products_path, class: "font-medium text-orange-600 hover:text-orange-500 transition-colors duration-200" %>
+            </p>
+          </div>
+        </div>
+      <% else %>
+        <div class="text-center py-12">
+          <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">Your cart is empty</h3>
+          <p class="mt-2 text-gray-600">Looks like you haven't added any products yet.</p>
+          <div class="mt-6">
+            <%= link_to products_path, class: "inline-flex items-center rounded-md bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors duration-200" do %>
+              <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm9-9A2.25 2.25 0 0011 4.25v2.5A2.25 2.25 0 0013.25 9h2.5A2.25 2.25 0 0018 6.75v-2.5A2.25 2.25 0 0015.75 2h-2.5zm0 9A2.25 2.25 0 0011 13.25v2.5A2.25 2.25 0 0013.25 18h2.5A2.25 2.25 0 0018 15.75v-2.5A2.25 2.25 0 0015.75 11h-2.5z" clip-rule="evenodd" />
+              </svg>
+              Browse Products
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%# Stimulus controller for cart updates %>
+<%= content_for :head do %>
+  <%= javascript_tag do %>
+    import { Controller } from "@hotwired/stimulus"
+
+    export default class extends Controller {
+      updateQuantity(event) {
+        event.target.form.requestSubmit()
+      }
+
+      updateSuccess(event) {
+        const [data, _status, _xhr] = event.detail
+        const itemId = event.target.closest('[id^="cart-item-"]').dataset.itemId
+        
+        // Update item total
+        this.element.querySelector(`[data-item-total="${itemId}"]`).textContent = data.item_price
+        
+        // Update cart total
+        document.querySelector('[data-cart-total]').textContent = data.total_price
+      }
+    }
+  <% end %>
+<% end %>

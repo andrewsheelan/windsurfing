@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-50">
+  <head>
+    <title><%= content_for(:title) || "Windsurfing" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full">
+    <div class="min-h-full">
+      <!-- Navigation -->
+      <nav class="bg-orange-600">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <h1 class="text-white text-xl font-bold">Windsurfing</h1>
+              </div>
+              <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-4">
+                  <%= link_to "Home", root_path, class: "text-white hover:bg-orange-500 rounded-md px-3 py-2" %>
+                  <%= link_to "Products", products_path, class: "text-white hover:bg-orange-500 rounded-md px-3 py-2" %>
+                  <%= link_to "Cart", cart_path, class: "text-white hover:bg-orange-500 rounded-md px-3 py-2" %>
+                </div>
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="ml-4 flex items-center md:ml-6">
+                <% if user_signed_in? %>
+                  <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "text-white hover:bg-orange-500 rounded-md px-3 py-2" %>
+                <% else %>
+                  <%= link_to "Sign In", new_user_session_path, class: "text-white hover:bg-orange-500 rounded-md px-3 py-2" %>
+                  <%= link_to "Sign Up", new_user_registration_path, class: "bg-orange-500 text-white hover:bg-orange-400 rounded-md px-3 py-2 ml-2" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Flash messages -->
+      <% if notice %>
+        <div class="rounded-md bg-orange-50 p-4 mx-auto max-w-7xl mt-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-orange-800"><%= notice %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+      <% if alert %>
+        <div class="rounded-md bg-red-50 p-4 mx-auto max-w-7xl mt-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-red-800"><%= alert %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Main content -->
+      <main>
+        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
