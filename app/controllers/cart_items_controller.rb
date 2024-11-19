@@ -34,19 +34,39 @@ class CartItemsController < ApplicationController
 
     if quantity <= 0
       @cart_item.destroy
-    else
-      @cart_item.update(quantity: quantity)
+      respond_to do |format|
+        format.html { redirect_to cart_path, notice: "Item removed from cart." }
+        format.json { head :no_content }
+      end
+      return
     end
 
-    respond_to do |format|
-      format.html { redirect_to cart_path, notice: "Cart updated." }
-      format.json {
-        render json: {
-          cart_total: helpers.number_to_currency(@cart.total_price),
-          item_total: helpers.number_to_currency(@cart_item.product.price * @cart_item.quantity),
-          cart_items_count: @cart.total_items
+    if quantity > @cart_item.product.stock
+      respond_to do |format|
+        format.html { redirect_to cart_path, alert: "Quantity cannot exceed available stock." }
+        format.json { render json: { error: "Quantity cannot exceed available stock." }, status: :unprocessable_entity }
+      end
+      return
+    end
+
+    if @cart_item.update(quantity: quantity)
+      respond_to do |format|
+        format.html { redirect_to cart_path, notice: "Cart updated." }
+        format.json {
+          render json: {
+            message: "Cart updated successfully.",
+            cart_total: helpers.number_to_currency(@cart.total_price),
+            item_total: helpers.number_to_currency(@cart_item.total_price),
+            cart_items_count: @cart.total_items,
+            quantity: @cart_item.quantity
+          }, status: :ok
         }
-      }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to cart_path, alert: "Failed to update cart." }
+        format.json { render json: { error: @cart_item.errors.full_messages.join(", ") }, status: :unprocessable_entity }
+      end
     end
   end
 
