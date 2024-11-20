@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define Filters -->
+  <defs>
+    <filter id="mountain-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity="0.3"/>
+    </filter>
+    <filter id="cloud-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0.5" dy="1" stdDeviation="0.5" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
   <!-- Animated Clouds -->
-  <g>
+  <g filter="url(#cloud-shadow)">
     <!-- First Cloud -->
     <path d="M4 9.5C4 8.1 5.1 7 6.5 7C7.3 7 8 7.3 8.5 7.8C8.8 6.5 10 5.5 11.5 5.5C13 5.5 14.2 6.5 14.5 7.8C15 7.3 15.7 7 16.5 7C17.9 7 19 8.1 19 9.5C19 10.9 17.9 12 16.5 12H6.5C5.1 12 4 10.9 4 9.5Z" 
           fill="#E2E8F0" opacity="0.7">
@@ -22,13 +32,13 @@
   </g>
 
   <!-- Mountains -->
-  <g>
+  <g filter="url(#mountain-shadow)">
     <!-- Back Mountain -->
-    <path d="M0 30L15 10L30 30H0Z" fill="#1E40AF" opacity="0.6"/>
+    <path d="M0 30L15 10L30 30H0Z" fill="#9A3412" opacity="0.6"/>
     <!-- Middle Mountain -->
-    <path d="M10 30L25 15L40 30H10Z" fill="#2563EB" opacity="0.8"/>
+    <path d="M10 30L25 15L40 30H10Z" fill="#C2410C" opacity="0.8"/>
     <!-- Front Mountain with Snow Cap -->
-    <path d="M5 30L20 5L35 30H5Z" fill="#3B82F6"/>
+    <path d="M5 30L20 5L35 30H5Z" fill="#EA580C"/>
     <path d="M17 8L20 5L23 8L20 12Z" fill="#F1F5F9"/> <!-- Snow Cap -->
   </g>
 
