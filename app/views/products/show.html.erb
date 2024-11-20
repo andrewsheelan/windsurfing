@@ -18,12 +18,12 @@
 
     <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12">
       <!-- Image gallery -->
-      <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-100">
+      <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-100 animate-fade-in">
         <% if @product.image.attached? %>
-          <%= image_tag @product.image, class: "h-full w-full object-cover object-center" %>
+          <%= image_tag @product.image, class: "h-full w-full object-cover object-center transition-all duration-700 hover:scale-110" %>
         <% else %>
           <div class="flex h-full items-center justify-center">
-            <svg class="h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-16 w-16 text-gray-300 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
@@ -31,22 +31,22 @@
       </div>
 
       <!-- Product info -->
-      <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+      <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 animate-slide-in-right">
         <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%= @product.name %></h1>
 
-        <div class="mt-3">
+        <div class="mt-3 animate-fade-up" style="animation-delay: 100ms;">
           <p class="text-3xl tracking-tight text-gray-900">
             <%= number_to_currency(@product.price) %>
           </p>
         </div>
 
-        <div class="mt-6">
+        <div class="mt-6 animate-fade-up" style="animation-delay: 200ms;">
           <div class="space-y-6 text-base text-gray-700">
             <%= @product.description %>
           </div>
         </div>
 
-        <div class="mt-6">
+        <div class="mt-6 animate-fade-up" style="animation-delay: 300ms;">
           <% if @product.stock > 0 %>
             <div class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700">
               <svg class="-ml-0.5 mr-1.5 h-2 w-2 fill-green-500" viewBox="0 0 8 8">
@@ -65,7 +65,7 @@
           <% end %>
         </div>
 
-        <%= form_with(url: cart_items_path, method: :post, class: "mt-8", data: { controller: "cart", action: "ajax:success->cart#addToCartSuccess" }) do |f| %>
+        <%= form_with(url: cart_items_path, method: :post, class: "mt-8 animate-fade-up", style: "animation-delay: 400ms;", data: { controller: "cart", action: "ajax:success->cart#addToCartSuccess" }) do |f| %>
           <%= f.hidden_field :product_id, value: @product.id %>
           
           <div class="mb-6">
@@ -107,7 +107,7 @@
           </div>
         <% end %>
 
-        <div class="mt-8 border-t border-gray-200 pt-8">
+        <div class="mt-8 border-t border-gray-200 pt-8 animate-fade-up" style="animation-delay: 500ms;">
           <h2 class="text-sm font-medium text-gray-900">Shipping Information</h2>
           <div class="mt-4 space-y-4">
             <div class="flex items-start">
@@ -130,53 +130,59 @@
   </div>
 </div>
 
-<%# Stimulus controller for quantity management %>
+<%# Animation styles %>
 <%= content_for :head do %>
-  <%= javascript_tag do %>
-    import { Controller } from "@hotwired/stimulus"
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    export default class extends Controller {
-      static targets = ["quantity"]
-
-      incrementQuantity() {
-        const input = this.quantityTarget
-        const currentValue = parseInt(input.value)
-        const maxValue = parseInt(input.max)
-        
-        if (currentValue < maxValue) {
-          input.value = currentValue + 1
-        }
+    @keyframes slide-in-right {
+      from {
+        opacity: 0;
+        transform: translateX(2rem);
       }
-
-      decrementQuantity() {
-        const input = this.quantityTarget
-        const currentValue = parseInt(input.value)
-        
-        if (currentValue > 1) {
-          input.value = currentValue - 1
-        }
-      }
-
-      addToCartSuccess(event) {
-        const [data, _status, _xhr] = event.detail
-        
-        // Show success notification
-        const notification = document.createElement('div')
-        notification.className = 'fixed top-4 right-4 bg-green-50 p-4 rounded-md shadow-lg'
-        notification.innerHTML = `
-          <div class="flex items-center">
-            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-            </svg>
-            <p class="ml-3 text-sm font-medium text-green-800">
-              Product added to cart successfully!
-            </p>
-          </div>
-        `
-        
-        document.body.appendChild(notification)
-        setTimeout(() => notification.remove(), 3000)
+      to {
+        opacity: 1;
+        transform: translateX(0);
       }
     }
-  <% end %>
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(1rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out;
+    }
+
+    .animate-slide-in-right {
+      animation: slide-in-right 0.6s ease-out;
+    }
+
+    .animate-fade-up {
+      animation: fade-up 0.6s ease-out both;
+    }
+
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: .5;
+      }
+    }
+  </style>
 <% end %>

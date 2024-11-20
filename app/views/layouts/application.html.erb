@@ -6,9 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= favicon_link_tag 'favicon.ico' %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= content_for(:head) %>
   </head>
 
   <body class="h-full">
@@ -19,7 +21,9 @@
           <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
               <div class="flex-shrink-0">
-                <h1 class="text-white text-xl font-bold">Windsurfing</h1>
+                <%= link_to root_path, class: "block" do %>
+                  <%= image_tag "logo.svg", class: "h-8 w-auto", alt: "Windsurfing", style: "min-width: 160px; height: 50px" %>
+                <% end %>
               </div>
               <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">

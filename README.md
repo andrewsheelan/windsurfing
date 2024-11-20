@@ -1,4 +1,5 @@
-# 🏄‍♂️ Windsurfing E-Commerce Platform
+![alt text](app/assets/images/logo.svg) 
+# Windsurfing E-Commerce Platform 🏄
 
 [![CI](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml/badge.svg)](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
@@ -15,9 +16,14 @@ A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind C
 
 ![alt text](gallery/product_show.png)
 
+![alt text](gallery/product_edit.png)
+
 ![alt text](gallery/cart_index.png)
 
 ![alt text](gallery/cart_empty.png)
+
+
+
 
 ## ✨ Features
 

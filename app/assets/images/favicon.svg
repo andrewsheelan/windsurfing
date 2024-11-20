@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Static Clouds -->
+  <g>
+    <!-- First Cloud -->
+    <path d="M4 9.5C4 8.1 5.1 7 6.5 7C7.3 7 8 7.3 8.5 7.8C8.8 6.5 10 5.5 11.5 5.5C13 5.5 14.2 6.5 14.5 7.8C15 7.3 15.7 7 16.5 7C17.9 7 19 8.1 19 9.5C19 10.9 17.9 12 16.5 12H6.5C5.1 12 4 10.9 4 9.5Z" 
+          fill="#E2E8F0" opacity="0.7"/>
+    
+    <!-- Second Cloud -->
+    <path d="M24 7.5C24 6.1 25.1 5 26.5 5C27.3 5 28 5.3 28.5 5.8C28.8 4.5 30 3.5 31.5 3.5C33 3.5 34.2 4.5 34.5 5.8C35 5.3 35.7 5 36.5 5C37.9 5 39 6.1 39 7.5C39 8.9 37.9 10 36.5 10H26.5C25.1 10 24 8.9 24 7.5Z" 
+          fill="#E2E8F0" opacity="0.7"/>
+  </g>
+
+  <!-- Mountains -->
+  <g>
+    <!-- Back Mountain -->
+    <path d="M0 30L15 10L30 30H0Z" fill="#1E40AF" opacity="0.6"/>
+    <!-- Middle Mountain -->
+    <path d="M10 30L25 15L40 30H10Z" fill="#2563EB" opacity="0.8"/>
+    <!-- Front Mountain with Snow Cap -->
+    <path d="M5 30L20 5L35 30H5Z" fill="#3B82F6"/>
+    <path d="M17 8L20 5L23 8L20 12Z" fill="#F1F5F9"/> <!-- Snow Cap -->
+  </g>
+
+  <!-- Static River -->
+  <path d="M0 32C10 30 15 31 20 30S25 29 40 31" stroke="#60A5FA" stroke-width="2" opacity="0.8"/>
+  <path d="M0 34C10 32 15 33 20 32S25 31 40 33" stroke="#93C5FD" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Trees -->
+  <g>
+    <path d="M5 30L7 25L9 30H5Z" fill="#22C55E" opacity="0.8"/> <!-- Left Tree -->
+    <path d="M32 30L34 26L36 30H32Z" fill="#22C55E" opacity="0.8"/> <!-- Right Tree -->
+  </g>
+</svg>
