@@ -1,4 +1,7 @@
-![alt text](app/assets/images/logo.svg) 
+<p align="center">
+  <img src="app/assets/images/logo.svg" width="300px">
+</p>
+
 # Windsurfing E-Commerce Platform 🏄
 
 [![CI](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml/badge.svg)](https://github.com/andrewpaliyan/windsurfing/actions/workflows/ci.yml)
@@ -7,6 +10,42 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3-blue.svg)](https://tailwindcss.com/)
 
 A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind CSS, specialized for windsurfing equipment and accessories.
+
+## 🚀 Technologies Used
+
+- Ruby on Rails 8.0
+- Hotwire (Turbo & Stimulus)
+- Action Cable for real-time features
+- Tailwind CSS
+- PostgreSQL
+- Redis for Action Cable
+
+## 🛠️ Setup
+
+1. Clone the repository
+```bash
+git clone [repository-url]
+cd windsurfing
+```
+
+2. Install dependencies
+```bash
+bundle install
+yarn install
+```
+
+3. Setup database
+```bash
+rails db:create
+rails db:migrate
+```
+
+4. Start the server
+```bash
+bin/dev
+```
+
+## 📸 Screenshots
 
 ![alt text](gallery/signup.png)
 
@@ -22,7 +61,7 @@ A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind C
 
 ![alt text](gallery/cart_empty.png)
 
-
+![alt text](gallery/chat.png)
 
 
 ## ✨ Features
@@ -38,6 +77,13 @@ A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind C
   - Quantity management
   - Stock validation
   - Dynamic price calculations
+
+- 💬 **Real-time Chat**
+  - Instant messaging between users
+  - Floating chat window interface
+  - Minimizable and closable chat window
+  - User-to-user private messaging
+  - Real-time message delivery
 
 - 👤 **User Authentication**
   - Secure user registration and login

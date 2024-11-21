@@ -82,8 +82,11 @@
       <main>
         <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <%= yield %>
+
+          <%# Render the chat window %>
         </div>
       </main>
     </div>
+          <%= render 'shared/chat_window' if current_user %>
   </body>
 </html>
