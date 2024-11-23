@@ -9,6 +9,8 @@
 [![Rails](https://img.shields.io/badge/Rails-8.0.0-red.svg)](https://rubyonrails.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3-blue.svg)](https://tailwindcss.com/)
 
+[Another App - Expenses Management](https://github.com/andrewsheelan/expenses)
+
 A modern, responsive e-commerce platform built with Ruby on Rails and Tailwind CSS, specialized for windsurfing equipment and accessories.
 
 ## 🚀 Technologies Used
