@@ -65,7 +65,6 @@ bin/dev
 
 ![alt text](gallery/chat.png)
 
-
 ## ✨ Features
 
 - 🛍️ **Product Management**
