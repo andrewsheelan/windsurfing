@@ -1,0 +1,11 @@
+FROM ollama/ollama
+
+# Create directory for Ollama data
+RUN mkdir -p /root/.ollama
+COPY run_ollama.sh /run_ollama.sh
+
+# Expose the Ollama API port
+EXPOSE 11434
+
+# Run Ollama serve and pull model after server starts
+ENTRYPOINT ["./run_ollama.sh"]

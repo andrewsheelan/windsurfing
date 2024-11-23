@@ -108,72 +108,8 @@
         </div>
       </main>
 
-      <!-- AI Assistant Chat Interface -->
-      <div class="fixed bottom-4 right-4 z-50" x-data="{ open: false, messages: [] }">
-        <!-- Chat Button -->
-        <button @click="open = !open" class="bg-orange-600 text-white rounded-full p-3 shadow-lg hover:bg-orange-500 transition-colors duration-200">
-          <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-          </svg>
-          <svg x-show="open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-
-        <!-- Chat Window -->
-        <div x-show="open" 
-             @click.away="open = false"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-90"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-90"
-             class="absolute bottom-16 right-0 w-96 bg-white rounded-lg shadow-xl border border-gray-200">
-          
-          <!-- Chat Header -->
-          <div class="bg-orange-600 text-white px-4 py-3 rounded-t-lg flex items-center">
-            <svg class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>
-            </svg>
-            <h3 class="font-semibold">Windsurfing Assistant</h3>
-          </div>
-
-          <!-- Chat Messages -->
-          <div class="h-96 overflow-y-auto p-4 space-y-4" id="chat-messages">
-            <!-- Welcome Message -->
-            <div class="flex items-start">
-              <div class="flex-shrink-0">
-                <div class="h-8 w-8 rounded-full bg-orange-600 flex items-center justify-center">
-                  <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="ml-3 bg-gray-100 rounded-lg py-2 px-4 max-w-[80%]">
-                <p class="text-sm text-gray-800">Hello! I'm your Windsurfing Assistant. How can I help you today?</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Chat Input -->
-          <div class="border-t p-4">
-            <form id="chat-form" class="flex items-stretch" @submit.prevent="sendMessage()">
-              <input type="text" 
-                     id="chat-input"
-                     placeholder="Type your message..."
-                     class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                     x-ref="chatInput">
-              <button type="submit" 
-                      class="inline-flex items-center justify-center bg-orange-600 text-white px-4 py-2 rounded-r-lg hover:bg-orange-500 transition-colors duration-200 border border-orange-600">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                </svg>
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+    <!-- Chat Window -->
+    <%= render "shared/chat" %>
     </div>
   </body>
 </html>

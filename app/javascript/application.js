@@ -80,3 +80,4 @@ document.addEventListener('alpine:init', () => {
     }
   }));
 });
+import "channels"

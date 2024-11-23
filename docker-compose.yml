@@ -1,0 +1,38 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000/tcp"
+    volumes:
+      - .:/rails
+      - bundle:/usr/local/bundle
+      - /rails/tmp
+      - /rails/log
+    environment:
+      - RAILS_ENV=development
+      - SECRET_KEY_BASE_DUMMY=1
+      - OLLAMA_HOST=http://ollama:11434
+    command: ["./bin/rails", "server", "-b", "0.0.0.0"]
+    depends_on:
+      - ollama
+
+  ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile.ollama
+    ports:
+      - 11434:11434/tcp
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ollama --version || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  bundle:
+  ollama_data:
