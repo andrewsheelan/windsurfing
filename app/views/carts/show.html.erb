@@ -100,28 +100,3 @@
     </div>
   </div>
 </div>
-
-<%# Stimulus controller for cart updates %>
-<%= content_for :head do %>
-  <%= javascript_tag do %>
-    import { Controller } from "@hotwired/stimulus"
-
-    export default class extends Controller {
-      updateQuantity(event) {
-        event.target.form.requestSubmit()
-      }
-
-      updateSuccess(event) {
-        const [data, _status, _xhr] = event.detail
-        const itemId = event.target.closest('[id^="cart-item-"]').dataset.itemId
-        
-        // Update item total
-        this.element.querySelector(`[data-item-total="${itemId}"]`).textContent = data.item_price
-        
-        // Update cart total
-        document.querySelector('[data-cart-total]').textContent = data.total_price
-      }
-    }
-  <% end %>
-<% end %>
-
