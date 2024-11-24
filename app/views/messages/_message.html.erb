@@ -1,0 +1,27 @@
+<div class="mb-4 <%= true ? 'text-right' : 'text-left' %>">
+  <div class="inline-block max-w-[70%] <%= true ? 'bg-blue-500 text-white' : 'bg-gray-100' %> rounded-lg px-4 py-2">
+    <div class="text-sm <%= true ? 'text-blue-100' : 'text-gray-600' %>">
+      <%= message.user.email %>
+    </div>
+    <div class="mt-1">
+      <%= message.content %>
+    </div>
+    <div class="text-xs <%= true ? 'text-blue-100' : 'text-gray-500' %> mt-1">
+      <%= time_ago_in_words(message.created_at) %> ago
+    </div>
+  </div>
+</div>
+
+<div class="mb-4 text-left">
+  <div class="inline-block max-w-[70%] bg-gray-100 rounded-lg px-4 py-2">
+    <div class="text-sm text-gray-600">
+      Response
+    </div>
+    <div class="mt-1">
+      <%= message.ai_response %>
+    </div>
+    <div class="text-xs text-gray-500 mt-1">
+      <%= time_ago_in_words(message.created_at) %> ago
+    </div>
+  </div>
+</div>

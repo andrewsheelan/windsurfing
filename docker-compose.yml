@@ -17,6 +17,8 @@ services:
     command: ["./bin/rails", "server", "-b", "0.0.0.0"]
     depends_on:
       - ollama
+    tty: true
+    stdin_open: true
 
   ollama:
     build:

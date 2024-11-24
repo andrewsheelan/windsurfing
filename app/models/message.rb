@@ -1,7 +1,10 @@
 class Message < ApplicationRecord
   belongs_to :user
-  belongs_to :recipient, class_name: "User"
-
   validates :content, presence: true
-  broadcasts_to ->(message) { "chat_#{[ message.user_id, message.recipient_id ].sort.join('_')}" }
+  validates :user_id, presence: true
+
+  after_create_commit -> { broadcast_append_to "chat_#{user_id}", 
+                          target: "chat_#{user_id}",
+                          partial: "messages/message",
+                          locals: { message: self } }
 end

@@ -2,38 +2,37 @@ import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
 
 export default class extends Controller {
-  static targets = ["messages", "form", "input"]
-  static values = {
-    recipientId: String
-  }
-
+  static targets = ["messages", "form", "input", "window", "openIcon", "closeIcon"]
+  
   connect() {
-    this.scrollToBottom()
-    
-    if (this.hasRecipientIdValue) {
-      this.channel = createConsumer().subscriptions.create(
-        {
-          channel: "ChatChannel",
-          recipient_id: this.recipientIdValue
+    this.channel = createConsumer().subscriptions.create(
+      { channel: "ChatChannel" },
+      {
+        connected: () => {
+          console.log('Connected to chat channel')
         },
-        {
-          connected: () => {
-            console.log('Connected to chat channel')
-          },
-          disconnected: () => {
-            console.log('Disconnected from chat channel')
-          },
-          received: (data) => {
-            this._handleMessage(data)
-          }
+        disconnected: () => {
+          console.log('Disconnected from chat channel')
+        },
+        received: (data) => {
+          this._handleMessage(data)
         }
-      )
-    }
+      }
+    )
   }
 
   disconnect() {
     if (this.channel) {
       this.channel.unsubscribe()
+    }
+  }
+
+  toggleChat() {
+    this.windowTarget.classList.toggle('hidden')
+    this.openIconTarget.classList.toggle('hidden')
+    this.closeIconTarget.classList.toggle('hidden')
+    if (!this.windowTarget.classList.contains('hidden')) {
+      this.scrollToBottom()
     }
   }
 

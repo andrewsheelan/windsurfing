@@ -109,7 +109,7 @@
       </main>
 
     <!-- Chat Window -->
-    <%= render "shared/chat" %>
+    <%= render "shared/chat" if user_signed_in? %>
     </div>
   </body>
 </html>

@@ -14,20 +14,18 @@ class MessagesController < ApplicationController
 
   def create
     @message = current_user.messages.build(message_params)
-    
+
     respond_to do |format|
-      if @message.save
-        # If the recipient is the AI user, get response from Ollama
-        if @message.recipient.email == 'john@example.com'
-          ai_response = OllamaService.chat(@message.content)
-          Message.create!(
-            content: ai_response,
-            user: User.find_by(email: 'john@example.com'),
-            recipient: current_user
-          )
-        end
-        
-        format.html { redirect_to messages_path(recipient_id: @message.recipient_id) }
+        ai_response = OllamaService.chat(@message.content)
+      if @message.update(ai_response: ai_response)
+        format.turbo_stream { 
+            render turbo_stream: turbo_stream.append(
+              "chat_#{current_user.id}",
+              partial: "messages/message",
+              locals: { message: @message }
+            )
+          }
+        format.html { redirect_to messages_path(user_id: @message.user_id) }
         format.json { head :ok }
       else
         format.html { render :index, status: :unprocessable_entity }
@@ -39,6 +37,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:content, :recipient_id)
+    params.require(:message).permit(:content)
   end
 end
