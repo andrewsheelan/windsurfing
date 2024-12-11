@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
       current_user.id, params[:recipient_id],
       params[:recipient_id], current_user.id
     ).order(created_at: :asc)
-    
+
     @recipient = User.find(params[:recipient_id]) if params[:recipient_id]
     @message = Message.new
   end
@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
         ai_response = OllamaService.chat(@message.content)
       if @message.update(ai_response: ai_response)
-        format.turbo_stream { 
+        format.turbo_stream {
             render turbo_stream: turbo_stream.append(
               "chat_#{current_user.id}",
               partial: "messages/message",

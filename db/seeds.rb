@@ -139,7 +139,7 @@ products = [
 created_products = products.map do |product_data|
   image_url = product_data.delete(:image_url)
   product = Product.create!(product_data)
-  
+
   begin
     # Download and attach the image
     downloaded_image = URI.open(image_url)
@@ -151,7 +151,7 @@ created_products = products.map do |product_data|
   rescue OpenURI::HTTPError => e
     puts "Failed to download image for #{product.name}: #{e.message}"
   end
-  
+
   product
 end
 
@@ -171,11 +171,11 @@ end
 # Create some messages between users
 users.each do |user|
   2.times do
-    recipient = (users + [admin]).reject { |u| u == user }.sample
+    recipient = (users + [ admin ]).reject { |u| u == user }.sample
     Message.create!(
       user: user,
       recipient: recipient,
-      content: ["Hi, is this item still available?", "When will this be back in stock?", "Thanks for the quick delivery!"].sample
+      content: [ "Hi, is this item still available?", "When will this be back in stock?", "Thanks for the quick delivery!" ].sample
     )
   end
 end

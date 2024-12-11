@@ -1,12 +1,12 @@
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
 
 class OllamaService
   def self.chat(message)
     uri = URI("#{ENV.fetch('OLLAMA_HOST', 'http://ollama:11434')}/api/generate")
-    
+
     request = Net::HTTP::Post.new(uri)
-    request.content_type = 'application/json'
+    request.content_type = "application/json"
     request.body = {
       model: "phi",
       prompt: message,
